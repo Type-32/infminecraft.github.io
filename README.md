@@ -1,4 +1,6 @@
 # infminecraft.github.io
+# infminecraft.netlify.app
+[![Netlify Status](https://api.netlify.com/api/v1/badges/631ea5b9-af86-4987-b8b1-75d822f93fb8/deploy-status)](https://app.netlify.com/sites/infminecraft/deploys)
 
 This template should help get you started developing with Vue 3 in Vite.
 
