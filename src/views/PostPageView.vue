@@ -89,13 +89,13 @@ function formatDateToMMMddYYYY(isoTimestamp: string): string {
                 <div class="text-5xl font-bold mb-3">{{ post.title }}</div>
                 <div class="flex text-zinc-500">
                     <div class="flex items-center">
-                        <NAvatar round :src="author.avatar_url" size="small" class="mr-1"/>
-                        {{ author.username }}
+                        <NAvatar round :src="author.avatar_url" size="small" class="mr-2"/>
+                        {{ author.username }},
                     </div>
+                    <div class="items-center text-zinc-500 font-bold ml-1">{{ formatDateToMMMddYYYY(post.created_at) }}</div>
                 </div>
-                <div class="items-center text-zinc-500 font-bold">{{ formatDateToMMMddYYYY(post.created_at) }}</div>
                 <NDivider/>
-                <MdPreview :editorId="'preview-only'" :modelValue="post.content" theme="dark" class="-mt-10" />
+                <MdPreview :editorId="'preview-only'" :modelValue="post.content" theme="dark" class="-mt-8" />
             </div>
             <div v-else>
                 <NSkeleton height="50px"/>
