@@ -96,7 +96,16 @@ const router = createRouter({
           component: GitHubPullRequestsView,
           props: true
         }
-      ]
+      ],
+      beforeEnter: async (to, from, next) => {
+        const $authStore = useAuthStore();
+        await $authStore.checkSession()
+        if ($authStore.state.session) {
+          next(); // Redirect to dashboard if already logged in
+        } else {
+          next({ name: 'login' }); // Unallow route if not logged in
+        }
+      },
     },
     {
       path: '/post/:slug',

@@ -14,18 +14,10 @@ import {
     NText,
     useMessage
 } from "naive-ui";
-import axios from 'axios'
 import {RouterLink, useRouter, useRoute} from "vue-router";
 import {Home, PencilSharp, GridOutline, PersonCircle, NewspaperOutline, GitMerge, GitPullRequest} from "@vicons/ionicons5";
-import {useSession} from "@/scripts/authentication/auth";
 import {useAuthStore} from "@/scripts/authentication/store";
-import ContentLoader from "@/views/components/ContentLoader.vue";
-// @ts-ignore
-import type {Post} from "@/scripts/types";
-import PostsDashboardView from "@/views/dashboards/PostsDashboardView.vue";
 import Copyrighter from "@/components/Copyrighter.vue";
-import {useDataFetcher} from "@/scripts/utility/dashboard/fetch";
-import MainBoardView from "@/views/dashboards/MainBoardView.vue";
 
 const $authStore = useAuthStore();
 const $route = useRoute()
