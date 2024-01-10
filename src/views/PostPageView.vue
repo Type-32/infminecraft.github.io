@@ -87,7 +87,7 @@ function formatDateToMMMddYYYY(isoTimestamp: string): string {
         <NLayoutContent class="p-10">
             <div v-if="post">
                 <div class="text-5xl font-bold mb-3">{{ post.title }}</div>
-                <div class="flex text-zinc-500">
+                <div class="flex text-zinc-500 items-center">
                     <div class="flex items-center">
                         <NAvatar round :src="author.avatar_url" size="small" class="mr-2"/>
                         {{ author.username }},
