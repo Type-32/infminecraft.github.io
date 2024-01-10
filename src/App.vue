@@ -18,12 +18,17 @@ import {supabase} from "@/scripts/client";
 import {useAuthStore} from "@/scripts/authentication/store";
 import {useDataFetcher} from "@/scripts/utility/dashboard/fetch";
 import {signOut} from "@/scripts/authentication/auth";
+import {useDashboardStore} from "@/scripts/utility/dashboard/dashboardStore";
+import type {User} from "@/scripts/types";
 
 function renderIcon(icon: Component) {
     return () => h(NIcon, null, {default: () => h(icon)})
 }
 
 const $router = useRouter()
+const $fetcher = useDataFetcher()
+const $dashboardStore = useDashboardStore()
+const {state, checkSession, updateSession} = useAuthStore();
 
 const userDropdown = [
     {
@@ -105,13 +110,13 @@ const headerMenuOptions: MenuOption[] = [
         icon: renderIcon(AlertCircle)
     }
 ]
+
 const containerRef = ref<HTMLElement | undefined>(undefined);
 const activeKey = ref("landing");
 const signingOutUser = ref(false)
 
-const {state, checkSession, updateSession} = useAuthStore();
-const avatarRef = ref()
-const $fetcher = useDataFetcher()
+const userRef = ref<User | null | undefined>()
+
 
 // When App.vue is mounted, we ensure our auth store is synced with any current session
 onMounted(async () => {
@@ -123,7 +128,7 @@ onMounted(async () => {
         updateSession(_session);
     });
 
-    // avatarRef.value = await $fetcher.fetchUserProfile(state.session?.user.id)
+    userRef.value = await $dashboardStore.fetchUser(state, null)
 });
 </script>
 
@@ -152,12 +157,9 @@ onMounted(async () => {
                                                             class="w-fit relative z-10"
                                                         />
                                                         <div class="mx-2 my-1 gap-2 flex bg-transparent">
-                                                            <NButton class="h-full" @click="$router.push('login')"
-                                                                     v-if="!state.session">Login 登陆
-                                                            </NButton>
-                                                            <NDropdown :options="userDropdown" trigger="hover" v-else>
-                                                                <NAvatar round size="medium"><img
-                                                                    :src="avatarRef ? avatarRef : '/infmc-icon.png'"/>
+                                                            <NDropdown :options="userDropdown" trigger="hover" v-if="state.session">
+                                                                <NAvatar round size="medium" :src="userRef?.avatar_url">
+                                                                    <img :src="'/infmc-icon.png'" v-if="!userRef" alt="pfp"/>
                                                                 </NAvatar>
                                                             </NDropdown>
                                                             <!--                                                        <NButton class="h-full">Sign Up 注册</NButton>-->

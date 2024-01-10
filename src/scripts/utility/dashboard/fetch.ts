@@ -20,22 +20,15 @@ export const useDataFetcher = () => {
         const issuesUrl = 'https://api.github.com/repos/infminecraft/infminecraft.github.io/issues?state=all';
         const pullsUrl = 'https://api.github.com/repos/infminecraft/infminecraft.github.io/pulls?state=all';
 
-        console.log("Started Fetching Github Data")
-
         try {
             const [issueResponse, pullResponse] = await Promise.all([
                 axios.get(issuesUrl),
                 axios.get(pullsUrl)
             ]);
-
-            console.log("Finished Fetching Github Data")
-            console.log(issueResponse.data)
-            console.log(pullResponse.data)
             return {issues: issueResponse.data, pull_requests: pullResponse.data}
         } catch (error) {
-            console.log("Fetch Github Data Error")
             if (error instanceof Error) {
-                message.error('Error fetching GitHub data: ' + error.message);
+                message?.error('Error fetching GitHub data: ' + error.message);
             }
         }
     }
@@ -56,7 +49,7 @@ export const useDataFetcher = () => {
         if (data) {
             // message.info('Number of authenticated users: ' + data.length)
         } else {
-            message.error('Error fetching users: ' + error?.message)
+            message?.error('Error fetching users: ' + error?.message)
         }
         return data;
     }
@@ -71,12 +64,11 @@ export const useDataFetcher = () => {
     async function getProfile(state: any, message: any): Promise<User | null | undefined> {
         if (!state.session) {
             // Handle the case where there is no session, e.g., redirect to log in or show a message.
-            message.error('No session found. Please login again.');
+            message?.error('No session found. Please login again.');
             return;
         }
 
         try {
-            console.log("Started Fetch User Profiles")
             // loading.value = true
             const user = state.session.user
 
@@ -92,11 +84,9 @@ export const useDataFetcher = () => {
                 return {username: data.username, website: data.website, avatar_url: data.avatar_url, id: user.id}
             }
         } catch (error) {
-            if (error instanceof Error) message.error(error.message)
-            else message.error("An Unexpected Error occurred")
-            console.log("Error Fetch User Profiles")
+            if (error instanceof Error) message?.error(error.message)
+            else message?.error("An Unexpected Error occurred")
         }
-        console.log("Finished Fetch User Profiles")
     }
 
     /**
@@ -109,11 +99,10 @@ export const useDataFetcher = () => {
     async function fetchUserPosts(state: any, message: any) {
         if (!state.session) {
             // Handle the case where there is no session, e.g., redirect to login or show a message.
-            message.error('No session found. Please login again.');
+            message?.error('No session found. Please login again.');
             return [];
         }
         try {
-            console.log("Started Fetch User Posts")
             let userId = state.session.user.id
             let { data: posts, error } = await supabase
                 .from('posts')
@@ -126,13 +115,11 @@ export const useDataFetcher = () => {
             return posts || []
         } catch (error) {
             if (error instanceof Error) {
-                message.error(error.message);
+                message?.error(error.message);
             } else {
-                message.error("An error occurred while fetching posts. Please refresh the page and try again.");
+                message?.error("An error occurred while fetching posts. Please refresh the page and try again.");
             }
-            console.log("Error Fetch User Posts")
         }
-        console.log("Finished Fetch User Posts")
         return [];
     }
 
@@ -149,7 +136,7 @@ export const useDataFetcher = () => {
     async function updateProfile(state: any, username: string, website: string, avatar_url: string, message: any) {
         if (!state.session) {
             // Handle the case where there is no session, e.g., redirect to login or show a message.
-            message.error('No session found. Please login again.');
+            message?.error('No session found. Please login again.');
             return;
         }
         try {
@@ -167,7 +154,7 @@ export const useDataFetcher = () => {
 
             if (error) throw error
         } catch (error) {
-            if (error instanceof Error) message.error(error.message)
+            if (error instanceof Error) message?.error(error.message)
         }
     }
 
@@ -182,7 +169,7 @@ export const useDataFetcher = () => {
             const { error } = await supabase.auth.signOut()
             if (error) throw error
         } catch (error) {
-            if (error instanceof Error) message.error(error.message)
+            if (error instanceof Error) message?.error(error.message)
         }
     }
 
@@ -199,7 +186,6 @@ export const useDataFetcher = () => {
     async function deletePosts(ids: number[], author_id: string, message: any) {
         for(let i = 0; i < ids.length; i++) {
             try {
-                console.log(ids)
                 const {error} = await supabase
                     .from('posts')
                     .delete()
@@ -207,16 +193,11 @@ export const useDataFetcher = () => {
                     .eq('author_id', author_id)
 
                 if (error) {
-                    console.log(error.message)
-                    message.error('Error: ' + error.message)
-                } else {
-                    console.log(`Finished post deletion of ${ids.join(', ')}`)
+                    message?.error(`Error occurred deleting posts: ${error.message}`)
                 }
-
             } catch (error) {
                 if (error instanceof Error) {
-                    message.error('Error: ' + error.message)
-                    console.log(error.message)
+                    message?.error('Error: ' + error.message)
                 }
             }
         }
@@ -246,11 +227,11 @@ export const useDataFetcher = () => {
 
             // Optionally, use the returned 'data' to do something, e.g., show success message with the post details
             console.log('New post created: ', data);
-            message.success('Post created successfully');
+            message?.success('Post created successfully');
         } catch (error: any) {
             // Log the error and show it to the user
             console.error('Error creating post: ', error);
-            message.error(`Error creating post: ${error.message}`);
+            message?.error(`Error creating post: ${error.message}`);
         }
     }
 
@@ -323,11 +304,11 @@ export const useDataFetcher = () => {
 
             // Optionally, use the returned 'data' to do something, e.g., show success message
             console.log('Post updated: ', data);
-            message.success('Post edited successfully');
+            message?.success('Post edited successfully');
         } catch (error: Error | any) {
             // Log the error and show it to the user
             console.error('Error editing post: ', error);
-            message.error(`Error editing post: ${error?.message}`);
+            message?.error(`Error editing post: ${error?.message}`);
         }
     }
 
@@ -342,7 +323,7 @@ export const useDataFetcher = () => {
             return posts || [];
         } catch (error: any) {
             console.error(`Error retrieving posts: ${error.message}`);
-            message.error(`Error retrieving posts: ${error.message}`);
+            message?.error(`Error retrieving posts: ${error.message}`);
         }
         return [];
     }

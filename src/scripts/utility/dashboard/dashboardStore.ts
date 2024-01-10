@@ -25,7 +25,7 @@ export const useDashboardStore = defineStore({
                 const $fetcher = useDataFetcher();
                 this.posts = await $fetcher.fetchUserPosts(state, message);
             }
-            console.log(this.posts)
+            // console.log(this.posts)
             return this.posts
         },
         async fetchUser(state: any, message: any, forceRefresh: boolean = false){
@@ -34,7 +34,7 @@ export const useDashboardStore = defineStore({
                 const user = await $fetcher.getProfile(state, message);
                 this.user = user || null;
             }
-            console.log(this.user)
+            // console.log(this.user)
             return this.user
         },
         async fetchUsers(message: any, forceRefresh: boolean = false){
@@ -43,7 +43,7 @@ export const useDashboardStore = defineStore({
                 const users = await $fetcher.getUsers(message);
                 this.users = users || [];
             }
-            console.log(this.users)
+            // console.log(this.users)
             return this.users
         },
     }
