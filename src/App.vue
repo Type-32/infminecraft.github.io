@@ -158,11 +158,8 @@ onMounted(async () => {
                                                         />
                                                         <div class="mx-2 my-1 gap-2 flex bg-transparent">
                                                             <NDropdown :options="userDropdown" trigger="hover" v-if="state.session">
-                                                                <NAvatar round size="medium" :src="userRef?.avatar_url">
-                                                                    <img :src="'/infmc-icon.png'" v-if="!userRef" alt="pfp"/>
-                                                                </NAvatar>
+                                                                <NAvatar round size="medium" :src="userRef?.avatar_url"/>
                                                             </NDropdown>
-                                                            <!--                                                        <NButton class="h-full">Sign Up 注册</NButton>-->
                                                         </div>
                                                     </div>
                                                 </div>
